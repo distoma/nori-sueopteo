@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>놀이 수업터</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <button id="homeBtn" class="brand" type="button" aria-label="놀이 수업터 홈">
+        <span class="badge-logo" aria-hidden="true">★</span>
+        <span>
+          <span class="site-title">놀이 수업터</span>
+          <span class="subtitle">학년 · 과목 · 내용별 전자칠판 놀이 수업 모음</span>
+        </span>
+      </button>
+      <div class="pill-row" aria-label="특징">
+        <span class="pill">전자칠판</span>
+        <span class="pill">동시 참여</span>
+        <span class="pill">학생 추첨</span>
+        <span class="pill">게임 추가 가능</span>
+      </div>
+    </header>
+
+    <main>
+      <section id="libraryScreen" class="screen active" aria-labelledby="libraryTitle">
+        <div class="library-layout">
+          <section class="intro panel">
+            <div>
+              <p class="eyebrow">초등 놀이형 학습 게임 저장소</p>
+              <h1 id="libraryTitle">오늘 수업에 맞는 게임을 골라 바로 시작해요.</h1>
+              <p class="intro-copy">과목, 학년, 단원, 내용 태그로 게임을 모아 두고 전자칠판에서 학생을 추첨해 함께 참여할 수 있습니다.</p>
+            </div>
+            <button id="quickStartBtn" class="btn primary" type="button">추천 게임 바로 시작</button>
+          </section>
+
+          <section class="filter-panel panel" aria-label="게임 필터">
+            <div class="field compact">
+              <label for="subjectFilter">과목</label>
+              <select id="subjectFilter"></select>
+            </div>
+            <div class="field compact">
+              <label for="gradeFilter">학년</label>
+              <select id="gradeFilter"></select>
+            </div>
+            <div class="field compact">
+              <label for="contentFilter">내용</label>
+              <select id="contentFilter"></select>
+            </div>
+          </section>
+        </div>
+
+        <section>
+          <div class="section-heading">
+            <h2>게임 보관함</h2>
+            <span id="libraryCount" class="soft-label">0개</span>
+          </div>
+          <div id="gameGrid" class="game-grid" aria-live="polite"></div>
+        </section>
+      </section>
+
+      <section id="setupScreen" class="screen" aria-labelledby="setupTitle">
+        <div class="setup-grid">
+          <section class="panel setup-card">
+            <p id="selectedMeta" class="eyebrow">수학 · 4학년 · 규칙 찾기</p>
+            <h1 id="setupTitle">학생 정보 확인</h1>
+            <p id="selectedDescription" class="setup-copy">게임을 시작하기 전에 참여할 학생을 추첨합니다.</p>
+
+            <div class="field">
+              <label for="className">학급 이름</label>
+              <input id="className" value="4학년 우리 반" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="studentInput">학생 이름 입력</label>
+              <textarea id="studentInput" spellcheck="false">민준
+서연
+도윤
+하은
+지호
+서아
+준서
+지유
+예준
+수아
+현우
+유진</textarea>
+            </div>
+            <div class="field">
+              <label for="playerCount">한 판에 참여할 학생 수</label>
+              <select id="playerCount">
+                <option value="2">2명</option>
+                <option value="3">3명</option>
+                <option value="4" selected>4명</option>
+              </select>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label for="stageCount">단계 수</label>
+                <select id="stageCount">
+                  <option value="10" selected>10단계</option>
+                  <option value="8">8단계</option>
+                  <option value="6">6단계</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="timeLimit">입력 시간</label>
+                <select id="timeLimit">
+                  <option value="20">20초</option>
+                  <option value="30" selected>30초</option>
+                  <option value="40">40초</option>
+                </select>
+              </div>
+            </div>
+            <div class="controls">
+              <button id="saveRosterBtn" class="btn secondary" type="button">명단 확인</button>
+              <button id="shuffleRosterBtn" class="btn blue" type="button">명단 섞기</button>
+              <button id="drawBtn" class="btn primary wide" type="button">참가자 추첨하기</button>
+            </div>
+          </section>
+
+          <section class="panel setup-card">
+            <h2 class="section-title"><span class="step-dot">추첨</span>참가자 확인</h2>
+            <div id="rosterBox" class="roster-box">
+              <div id="studentList" class="student-list" aria-live="polite"></div>
+            </div>
+            <div class="draw-stage">
+              <div class="draw-screen" aria-live="polite">
+                <div id="drawName" class="draw-name">준비 완료!</div>
+              </div>
+              <div id="selectedGrid" class="selected-grid"></div>
+              <div class="controls">
+                <button id="backToLibraryBtn" class="btn secondary" type="button">게임 목록</button>
+                <button id="redrawBtn" class="btn pink" type="button">다시 추첨</button>
+                <button id="startGameBtn" class="btn green wide" type="button">게임 시작</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="gameScreen" class="screen" aria-labelledby="gameTitle">
+        <div class="game-wrap">
+          <div class="game-topline">
+            <div>
+              <p id="gameMeta" class="eyebrow">수학 · 4학년</p>
+              <h1 id="gameTitle">규칙 탐험대</h1>
+            </div>
+            <button id="changeGameBtn" class="btn secondary small-btn" type="button">게임 목록</button>
+          </div>
+
+          <div id="scorebar" class="scorebar" aria-label="점수판"></div>
+          <section class="panel question-panel">
+            <div class="round-row">
+              <span id="roundInfo">1라운드</span>
+              <span id="timerBadge" class="timer-badge">30초</span>
+              <span id="questionType" class="question-type">수 규칙</span>
+            </div>
+            <h2 id="questionText" class="question-text">문제가 나타납니다</h2>
+            <p id="hint" class="hint">정답을 찾으면 자기 칸의 답을 눌러요.</p>
+          </section>
+          <div id="stations" class="stations"></div>
+          <div class="game-actions">
+            <button id="nextBtn" class="btn primary" type="button">다음 문제</button>
+            <button id="explainBtn" class="btn blue" type="button">규칙 보기</button>
+            <button id="newPlayersBtn" class="btn pink" type="button">새 참가자</button>
+            <button id="resetBtn" class="btn secondary" type="button">처음으로</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="finishScreen" class="screen" aria-labelledby="finishTitle">
+        <div class="panel finish-panel">
+          <div>
+            <div class="winner-crown" aria-hidden="true">♛</div>
+            <h1 id="finishTitle" class="winner-name">우승자</h1>
+            <div id="ranking" class="ranking"></div>
+            <div id="gameRecord" class="game-record"></div>
+            <div class="controls">
+              <button id="againSameBtn" class="btn primary" type="button">같은 학생으로 한 판 더</button>
+              <button id="finishNewBtn" class="btn pink" type="button">새 참가자 추첨</button>
+              <button id="finishLibraryBtn" class="btn secondary wide" type="button">게임 목록으로</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="confetti" class="confetti" aria-hidden="true"></div>
+  <script src="app.js"></script>
+</body>
+</html>
