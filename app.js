@@ -244,6 +244,32 @@ function returnToLibrary() {
   showScreen("library");
 }
 
+async function toggleFullscreen() {
+  const root = document.documentElement;
+  try {
+    if (!document.fullscreenElement) {
+      if (!root.requestFullscreen) {
+        showToast("이 브라우저에서는 전체 화면 전환을 지원하지 않아요.");
+        return;
+      }
+      await root.requestFullscreen();
+    } else {
+      await document.exitFullscreen();
+    }
+  } catch (error) {
+    showToast("브라우저 상단의 전체 화면 허용 여부를 확인해 주세요.");
+  } finally {
+    updateFullscreenButton();
+  }
+}
+
+function updateFullscreenButton() {
+  const button = $("fullscreenBtn");
+  const isFullscreen = Boolean(document.fullscreenElement);
+  button.textContent = isFullscreen ? "전체 화면 종료" : "전체 화면";
+  button.setAttribute("aria-label", isFullscreen ? "전체 화면 종료" : "전체 화면으로 보기");
+}
+
 function parseRoster() {
   const names = $("studentInput").value
     .split(/[\n,，、]+/)
@@ -752,6 +778,8 @@ $("gameGrid").addEventListener("click", (event) => {
   if (card) chooseGame(card.dataset.gameId);
 });
 $("homeBtn").addEventListener("click", returnToLibrary);
+$("fullscreenBtn").addEventListener("click", toggleFullscreen);
+document.addEventListener("fullscreenchange", updateFullscreenButton);
 $("quickStartBtn").addEventListener("click", () => chooseGame(GAME_LIBRARY[0].id));
 $("backToLibraryBtn").addEventListener("click", () => showScreen("library"));
 $("changeGameBtn").addEventListener("click", returnToLibrary);
