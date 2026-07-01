@@ -266,6 +266,7 @@ async function toggleFullscreen() {
 function updateFullscreenButton() {
   const button = $("fullscreenBtn");
   const isFullscreen = Boolean(document.fullscreenElement);
+  document.body.classList.toggle("fullscreen-mode", isFullscreen);
   button.textContent = isFullscreen ? "전체 화면 종료" : "전체 화면";
   button.setAttribute("aria-label", isFullscreen ? "전체 화면 종료" : "전체 화면으로 보기");
 }
