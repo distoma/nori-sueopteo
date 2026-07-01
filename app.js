@@ -500,6 +500,7 @@ const state = {
   remainingSeconds: 0,
   lastCountdownSecond: null,
   audioContext: null,
+  usedStudents: new Set(),
   records: []
 };
 
@@ -635,10 +636,25 @@ function parseRoster() {
 
 function saveRoster() {
   state.roster = parseRoster();
+  pruneUsedStudents();
   localStorage.setItem("playClassName", $("className").value.trim());
   localStorage.setItem("playRoster", state.roster.join("\n"));
   renderRoster();
   showToast(`${state.roster.length}명의 학생 정보를 확인했어요.`);
+}
+
+function saveUsedStudents() {
+  localStorage.setItem("playUsedStudents", JSON.stringify([...state.usedStudents]));
+}
+
+function pruneUsedStudents() {
+  const currentNames = new Set(state.roster);
+  state.usedStudents = new Set([...state.usedStudents].filter((name) => currentNames.has(name)));
+  saveUsedStudents();
+}
+
+function getAvailableStudents() {
+  return state.roster.filter((name) => !state.usedStudents.has(name));
 }
 
 function renderRoster() {
@@ -650,8 +666,9 @@ function renderRoster() {
   }
   state.roster.forEach((name, index) => {
     const chip = document.createElement("span");
-    chip.className = "student-chip";
-    chip.textContent = `${index + 1}. ${name}`;
+    const isUsed = state.usedStudents.has(name);
+    chip.className = `student-chip${isUsed ? " used" : ""}`;
+    chip.textContent = isUsed ? `${index + 1}. ${name} · 참여 완료` : `${index + 1}. ${name}`;
     list.appendChild(chip);
   });
 }
@@ -676,20 +693,28 @@ function shuffleRoster() {
 function drawPlayers() {
   saveRoster();
   const count = Number($("playerCount").value);
+  const available = getAvailableStudents();
   if (state.roster.length < count) {
     showToast(`참가자 ${count}명을 뽑으려면 학생 이름이 ${count}명 이상 필요해요.`);
     return;
   }
-  const picked = shuffle(state.roster).slice(0, count);
+  if (available.length < count) {
+    state.players = [];
+    renderSelected();
+    $("drawName").textContent = "남은 학생 부족";
+    showToast(`남은 학생이 ${available.length}명입니다. 참여 기록을 초기화하거나 참가자 수를 줄여요.`);
+    return;
+  }
+  const picked = shuffle(available).slice(0, count);
   state.players = picked.map((name, index) => ({ name, color: palette[index] }));
   renderSelected();
-  animateDraw(picked);
+  animateDraw(picked, available);
 }
 
-function animateDraw(names) {
+function animateDraw(names, sourcePool = state.roster) {
   const drawName = $("drawName");
   let steps = 0;
-  const pool = shuffle(state.roster);
+  const pool = shuffle(sourcePool);
   clearInterval(window.drawTimer);
   window.drawTimer = setInterval(() => {
     drawName.textContent = pool[steps % pool.length];
@@ -701,6 +726,19 @@ function animateDraw(names) {
       showToast("추첨 완료! 게임을 시작할 수 있어요.");
     }
   }, 70);
+}
+
+function markCurrentPlayersUsed() {
+  state.players.forEach((player) => state.usedStudents.add(player.name));
+  saveUsedStudents();
+  renderRoster();
+}
+
+function resetUsedStudents() {
+  state.usedStudents.clear();
+  saveUsedStudents();
+  renderRoster();
+  showToast("참여 완료 기록을 초기화했어요.");
 }
 
 function renderSelected() {
@@ -732,6 +770,7 @@ function startGame(keepPlayers = false) {
   state.scores = state.players.map(() => 0);
   state.round = 0;
   state.records = [];
+  markCurrentPlayersUsed();
   state.questionOrder = shuffle(state.selectedGame.problems).slice(0, Math.min(state.roundLimit, state.selectedGame.problems.length));
   state.current = null;
   showScreen("game");
@@ -1116,9 +1155,16 @@ function burst(count = 46) {
 function restoreSaved() {
   const savedClass = localStorage.getItem("playClassName");
   const savedRoster = localStorage.getItem("playRoster");
+  const savedUsed = localStorage.getItem("playUsedStudents");
   if (savedClass) $("className").value = savedClass;
   if (savedRoster) $("studentInput").value = savedRoster;
+  try {
+    state.usedStudents = new Set(JSON.parse(savedUsed || "[]"));
+  } catch (error) {
+    state.usedStudents = new Set();
+  }
   state.roster = parseRoster();
+  pruneUsedStudents();
   renderRoster();
   renderSelected();
   chooseGame(GAME_LIBRARY[0].id);
@@ -1141,6 +1187,7 @@ $("changeGameBtn").addEventListener("click", returnToLibrary);
 $("saveRosterBtn").addEventListener("click", saveRoster);
 $("shuffleRosterBtn").addEventListener("click", shuffleRoster);
 $("drawBtn").addEventListener("click", drawPlayers);
+$("resetUsedBtn").addEventListener("click", resetUsedStudents);
 $("redrawBtn").addEventListener("click", drawPlayers);
 $("startGameBtn").addEventListener("click", () => startGame(false));
 $("stations").addEventListener("pointerdown", chooseAnswer);

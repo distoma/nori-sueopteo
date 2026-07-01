@@ -461,6 +461,13 @@ select:focus {
   box-shadow: 0 5px 12px rgba(36, 48, 68, .07);
 }
 
+.student-chip.used {
+  border-color: rgba(100, 116, 139, .28);
+  background: #f1f5f9;
+  color: #64748b;
+  box-shadow: none;
+}
+
 .empty-note {
   display: grid;
   min-height: 220px;
