@@ -833,205 +833,191 @@ body.tension .game-wrap {
 }
 
 body.fullscreen-mode {
+  overflow: auto;
+}
+
+body.fullscreen-mode.screen-game {
   overflow: hidden;
 }
 
-body.fullscreen-mode .shell {
+body.fullscreen-mode.screen-game .shell {
   width: min(100% - 18px, 1560px);
   height: 100dvh;
-  padding: 8px 0;
+  padding: 6px 0;
   overflow: hidden;
 }
 
-body.fullscreen-mode .topbar {
-  min-height: 48px;
-  margin-bottom: 8px;
-  gap: 10px;
-  align-items: center;
-  flex-direction: row;
+body.fullscreen-mode.screen-game .topbar {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+  z-index: 30;
+  min-height: 0;
+  margin: 0;
+  gap: 0;
+  justify-content: flex-end;
 }
 
-body.fullscreen-mode .badge-logo {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  font-size: 24px;
-}
-
-body.fullscreen-mode .site-title {
-  font-size: clamp(24px, 3vw, 38px);
-}
-
-body.fullscreen-mode .subtitle,
-body.fullscreen-mode .pill:not(.fullscreen-btn) {
+body.fullscreen-mode.screen-game .brand,
+body.fullscreen-mode.screen-game .pill-row .pill {
   display: none;
 }
 
-body.fullscreen-mode .fullscreen-btn {
-  min-height: 38px;
-  padding: 6px 12px;
+body.fullscreen-mode.screen-game .pill-row {
+  display: block;
 }
 
-body.fullscreen-mode #gameScreen.active .game-wrap {
-  height: calc(100dvh - 64px);
-  grid-template-rows: auto auto minmax(112px, .7fr) minmax(0, 1.3fr) auto;
-  gap: 8px;
+body.fullscreen-mode.screen-game .fullscreen-btn {
+  min-height: 34px;
+  padding: 5px 10px;
+  font-size: 13px;
+  opacity: .78;
+}
+
+body.fullscreen-mode.screen-game #gameScreen.active .game-wrap {
+  height: calc(100dvh - 12px);
+  grid-template-rows: auto minmax(88px, auto) minmax(0, 1fr) auto;
+  gap: 6px;
   overflow: hidden;
 }
 
-body.fullscreen-mode .game-topline {
-  min-height: 38px;
-  gap: 10px;
-  align-items: center;
-  flex-direction: row;
-}
-
-body.fullscreen-mode .game-topline .eyebrow {
+body.fullscreen-mode.screen-game .game-topline {
   display: none;
 }
 
-body.fullscreen-mode .game-topline h1 {
-  font-size: clamp(22px, 3vw, 38px);
-}
-
-body.fullscreen-mode .small-btn {
-  min-height: 38px;
-  padding: 7px 12px;
-  font-size: 15px;
-}
-
-body.fullscreen-mode .scorebar {
+body.fullscreen-mode.screen-game .scorebar {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 8px;
+  gap: 6px;
 }
 
-body.fullscreen-mode .score-tile {
-  min-height: 58px;
-  padding: 8px 10px;
+body.fullscreen-mode.screen-game .score-tile {
+  min-height: 48px;
+  padding: 6px 9px;
   border-width: 2px;
-  border-radius: 16px;
+  border-radius: 14px;
 }
 
-body.fullscreen-mode .score-name {
+body.fullscreen-mode.screen-game .score-name {
   font-size: clamp(14px, 1.4vw, 18px);
 }
 
-body.fullscreen-mode .score-points {
-  margin-top: 3px;
-  font-size: clamp(22px, 2.8vw, 34px);
+body.fullscreen-mode.screen-game .score-points {
+  margin-top: 1px;
+  font-size: clamp(20px, 2.5vw, 30px);
 }
 
-body.fullscreen-mode .question-panel {
+body.fullscreen-mode.screen-game .question-panel {
   min-height: 0;
-  padding: 10px 16px;
-  border-radius: 20px;
+  padding: 8px 14px;
+  border-radius: 18px;
 }
 
-body.fullscreen-mode .round-row {
-  margin-bottom: 6px;
-  font-size: clamp(14px, 1.5vw, 18px);
+body.fullscreen-mode.screen-game .round-row {
+  margin-bottom: 4px;
+  font-size: clamp(13px, 1.35vw, 17px);
 }
 
-body.fullscreen-mode .timer-badge {
-  min-width: 82px;
-  padding: 5px 10px;
-  font-size: clamp(18px, 2.2vw, 28px);
+body.fullscreen-mode.screen-game .timer-badge {
+  min-width: 74px;
+  padding: 4px 9px;
+  font-size: clamp(17px, 2vw, 25px);
 }
 
-body.fullscreen-mode .question-type {
-  padding: 5px 10px;
+body.fullscreen-mode.screen-game .question-type {
+  padding: 4px 9px;
 }
 
-body.fullscreen-mode .question-text {
-  min-height: 70px;
-  font-size: clamp(26px, 4vw, 54px);
+body.fullscreen-mode.screen-game .question-text {
+  min-height: 54px;
+  font-size: clamp(24px, 3.6vw, 48px);
 }
 
-body.fullscreen-mode .hint {
-  min-height: 22px;
-  font-size: clamp(14px, 1.4vw, 18px);
+body.fullscreen-mode.screen-game .hint {
+  min-height: 18px;
+  font-size: clamp(12px, 1.2vw, 16px);
 }
 
-body.fullscreen-mode .stations {
+body.fullscreen-mode.screen-game .stations {
   min-height: 0;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 6px;
   overflow: hidden;
 }
 
-body.fullscreen-mode .station {
+body.fullscreen-mode.screen-game .station {
   min-height: 0;
-  padding: 9px;
+  padding: 7px;
   border-width: 3px;
-  border-radius: 18px;
+  border-radius: 16px;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
 }
 
-body.fullscreen-mode .station-head {
-  min-height: 30px;
-  margin-bottom: 7px;
-}
-
-body.fullscreen-mode .station-name {
-  font-size: clamp(16px, 1.7vw, 23px);
-}
-
-body.fullscreen-mode .answered-badge {
-  min-width: 60px;
-  padding: 4px 7px;
-  font-size: 12px;
-}
-
-body.fullscreen-mode .answers {
-  min-height: 0;
-  gap: 7px;
-}
-
-body.fullscreen-mode .answer {
-  min-height: 54px;
-  padding: 6px;
-  border-width: 2px;
-  border-radius: 15px;
-  font-size: clamp(20px, 2.5vw, 34px);
-}
-
-body.fullscreen-mode .feedback {
+body.fullscreen-mode.screen-game .station-head {
   min-height: 26px;
-  margin-top: 7px;
-  font-size: clamp(13px, 1.35vw, 17px);
+  margin-bottom: 5px;
 }
 
-body.fullscreen-mode .round-result {
-  inset: 8px;
-  padding: 10px;
+body.fullscreen-mode.screen-game .station-name {
+  font-size: clamp(15px, 1.55vw, 21px);
+}
+
+body.fullscreen-mode.screen-game .answered-badge {
+  min-width: 54px;
+  padding: 3px 6px;
+  font-size: 11px;
+}
+
+body.fullscreen-mode.screen-game .answers {
+  min-height: 0;
+  gap: 5px;
+}
+
+body.fullscreen-mode.screen-game .answer {
+  min-height: 44px;
+  padding: 5px;
+  border-width: 2px;
+  border-radius: 13px;
+  font-size: clamp(18px, 2.2vw, 30px);
+}
+
+body.fullscreen-mode.screen-game .feedback {
+  min-height: 22px;
+  margin-top: 5px;
+  font-size: clamp(12px, 1.2vw, 15px);
+}
+
+body.fullscreen-mode.screen-game .round-result {
+  inset: 6px;
+  padding: 8px;
   border-width: 3px;
-  border-radius: 16px;
-}
-
-body.fullscreen-mode .result-title {
-  font-size: clamp(28px, 3.5vw, 48px);
-}
-
-body.fullscreen-mode .result-answer {
-  font-size: clamp(19px, 2.4vw, 32px);
-}
-
-body.fullscreen-mode .result-meta,
-body.fullscreen-mode .result-score {
-  font-size: clamp(15px, 1.7vw, 22px);
-}
-
-body.fullscreen-mode .game-actions {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-}
-
-body.fullscreen-mode .game-actions .btn {
-  min-height: 42px;
-  padding: 7px 10px;
   border-radius: 14px;
-  font-size: clamp(15px, 1.5vw, 18px);
+}
+
+body.fullscreen-mode.screen-game .result-title {
+  font-size: clamp(25px, 3vw, 42px);
+}
+
+body.fullscreen-mode.screen-game .result-answer {
+  font-size: clamp(17px, 2vw, 28px);
+}
+
+body.fullscreen-mode.screen-game .result-meta,
+body.fullscreen-mode.screen-game .result-score {
+  font-size: clamp(13px, 1.45vw, 19px);
+}
+
+body.fullscreen-mode.screen-game .game-actions {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+body.fullscreen-mode.screen-game .game-actions .btn {
+  min-height: 34px;
+  padding: 5px 8px;
+  border-radius: 12px;
+  font-size: clamp(13px, 1.35vw, 16px);
+  box-shadow: 0 5px 0 rgba(36, 48, 68, .12), var(--small-shadow);
 }
 
 .finish-panel {

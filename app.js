@@ -235,6 +235,10 @@ function chooseGame(gameId) {
 function showScreen(name) {
   Object.values(screens).forEach((screen) => screen.classList.remove("active"));
   screens[name].classList.add("active");
+  document.body.classList.toggle("screen-library", name === "library");
+  document.body.classList.toggle("screen-setup", name === "setup");
+  document.body.classList.toggle("screen-game", name === "game");
+  document.body.classList.toggle("screen-finish", name === "finish");
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
